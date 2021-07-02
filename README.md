@@ -4,9 +4,10 @@ A simple minimal todo app create for the purpose of practicing `Typescript` for 
 
 ## ✨ UI
 1. Dashboard
-![Dashboard]("./githubAssets/UI.png")
-![Task Form]("./githubAssets/UI2.png")
-![Task Form]("./githubAssets/UI3.png")
+
+![Dashboard](/githubAssets/UI.png)
+![Task Form](/githubAssets/UI2.png)
+![Task Form](/githubAssets/UI3.png)
 
 ## 👨‍💻 Technologies Required
 1. Nodejs
