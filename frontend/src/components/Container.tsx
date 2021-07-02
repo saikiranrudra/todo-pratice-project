@@ -1,11 +1,7 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { Typography } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import TaskTab from "./TaskTab";
-
-// interfaces
-import Task from "./../interfaces/task";
 
 const useStyles = makeStyles({
   containerTitle: {
@@ -17,36 +13,28 @@ const useStyles = makeStyles({
   },
   container: {
     padding: ".6rem .6rem",
+    overflowY: "scroll"
   },
 });
 
 interface propType {
   title: string;
-  tasks: Task[];
+  children?: ReactNode | ReactNode[];
   style?: CSSProperties;
 }
 
-const TaskContainer = (props: propType) => {
+const Container = ({title, children = "", style = {}}: propType) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.container} style={props.style} >
+    <Paper className={classes.container} style={style} >
       <Typography variant="h6" className={classes.containerTitle}>
-        {props.title}
+        {title}
       </Typography>
       <div>
-        <TaskTab
-          task={{
-            title: "Task Title",
-            type: "important",
-            subTitle: "subTitle",
-            description: "description",
-            reminderDate: new Date(),
-            _id: "54das5d46as5d",
-          }}
-        />
+        {children}
       </div>
     </Paper>
   );
 };
 
-export default TaskContainer;
+export default Container;

@@ -6,12 +6,19 @@
   "author": "Saikiran Rudra",
   "license": "MIT",
   "private": true,
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "scripts": {
     "build": "tsc -p .",
     "build:watch": "tsc -w -p .",
     "start": "node build/server.js",
     "start:watch": "nodemon build/server.js",
-    "dev": "concurrently yarn:*:watch"
+    "dev": "concurrently yarn:*:watch",
+    "test": "jest"
   },
   "dependencies": {
     "compression": "^1.7.4",

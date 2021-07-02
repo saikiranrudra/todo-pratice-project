@@ -1,13 +1,17 @@
 import express from "express";
 import cors from "cors";
-import mongoSanitize from "express-mongo-sanitize";
 import morgan from "morgan";
-
-const rfs = require("rotating-file-stream")
+const rfs = require("rotating-file-stream");
 import path from "path";
-import compression from "compression";
 import AppError from "./utils/AppError";
+import mongoSanitize from "express-mongo-sanitize";
+import compression from "compression";
+
+// controllers
 import globalErrorHandler from "./controllers/errorController";
+
+// routes
+import taskRoutes from "./routes/taskRoutes";
 
 // Initilising express app
 const app = express();
@@ -21,14 +25,25 @@ const logStream = rfs.createStream(logFileName, {
 });
 
 // Implementing cors
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL, // only this route is support client side
-  })
-);
+app.use(cors());
 
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize);
+// implementing bodyParse
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
+// remove mongodb query parameters from req body prevent no-sql injection
+app.use(mongoSanitize());
+
+// http request compression
+app.use(compression());
+
+// testing route
+app.get("/", (req, res, next) => {
+  res.json({ message: "Welcome to Todo App..." });
+});
+
+
 
 // Development Logging
 if (process.env.NODE_ENV === "development") {
@@ -39,9 +54,8 @@ if (process.env.NODE_ENV === "development") {
   // app.use(morgan("combined"));
 }
 
-app.use(compression);
-
 // Routes
+app.use('/api/v1/task', taskRoutes);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl} on this server!`, "404"));
